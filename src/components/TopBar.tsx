@@ -19,7 +19,7 @@ import {
   Menu as MenuIcon,
   Settings as SettingsIcon
 } from '@material-ui/icons'
-import { DataContext } from '../utils/data'
+import { DataContext } from '../utils/context'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,12 +48,11 @@ const TopBar = () => {
   }
 
   const handleCheck = (id: number) => {
-    const newData = [...context.data]
-    let newItem = context.data[id]
+    const newData = [...context.context]
+    let newItem = context.context[id]
     newItem.status = !newItem.status
     newData.splice( id, 1, newItem)
-    context.setData(newData)
-    console.log(context.data)
+    context.setContext(newData)
   }
 
   return (
@@ -91,7 +90,7 @@ const TopBar = () => {
           <FormLabel component="legend">Check List</FormLabel>
           <FormGroup row>
             <List>
-              {context.data.map((item, index)=>(
+              {context.context.map((item, index)=>(
                 <ListItem key={index}>
                   <Paper elevation={3} className={classes.paper}>
                   <FormControlLabel

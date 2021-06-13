@@ -1,31 +1,67 @@
-import React, { useState, createContext } from 'react'
-import { data as IData } from './interface'
-
-const items = [
+const data = [
   {
     "name":"Machine0001",
-    "status": false
+    "status": false,
+    "value":[
+      {
+        name: 'Page A',
+        forecast: 4000,
+        performance: 2400
+      },
+      {
+        name: 'Page B',
+        forecast: 3000,
+        performance: 1398
+      },
+      {
+        name: 'Page C',
+        forecast: 2000,
+        performance: 9800
+      }
+    ]
   },
   {
     "name":"Machine0002",
-    "status": false
+    "status": false,
+    "value":[
+      {
+        name: 'Page A',
+        forecast: 4000,
+        performance: 2400
+      },
+      {
+        name: 'Page B',
+        forecast: 3000,
+        performance: 1398
+      },
+      {
+        name: 'Page C',
+        forecast: 2000,
+        performance: 9800
+      }
+    ]
   },
   {
     "name":"Machine0003",
-    "status": false
+    "status": false,
+    "value":[
+      {
+        name: 'Page A',
+        forecast: 4000,
+        performance: 2400
+      },
+      {
+        name: 'Page B',
+        forecast: 3000,
+        performance: 1398
+      },
+      {
+        name: 'Page C',
+        forecast: 2000,
+        performance: 9800
+      }
+    ]
   }
 ]
 
-export const DataContext = createContext({
-  data: items,
-  setData: (newData:IData[]) => {},
-});
-
-export const DataProvider = ({ children }: any) => {
-  const [data, setData] = useState(items);
-  return (
-    <DataContext.Provider value={{data, setData}}>
-      {children}
-    </DataContext.Provider>
-  );
-};
+export default data
