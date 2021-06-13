@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -19,6 +19,7 @@ import {
   Menu as MenuIcon,
   Settings as SettingsIcon
 } from '@material-ui/icons'
+import { DataContext } from '../utils/data'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,16 +39,21 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const TopBar = () => {
+  const context = useContext(DataContext)
   const classes = useStyles()
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [checked, setChecked] = useState(false)
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen)
   }
 
-  const handleCheck = () => {
-    setChecked(!checked)
+  const handleCheck = (id: number) => {
+    const newData = [...context.data]
+    let newItem = context.data[id]
+    newItem.status = !newItem.status
+    newData.splice( id, 1, newItem)
+    context.setData(newData)
+    console.log(context.data)
   }
 
   return (
@@ -64,7 +70,7 @@ const TopBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Json-Graph
+            Json Graph
           </Typography>
           <IconButton
             aria-label="setting"
@@ -85,14 +91,16 @@ const TopBar = () => {
           <FormLabel component="legend">Check List</FormLabel>
           <FormGroup row>
             <List>
-              <ListItem>
-                <Paper elevation={3} className={classes.paper}>
-                <FormControlLabel
-                  control={<Checkbox checked={checked} onChange={handleCheck} name="gilad" />}
-                  label="Machine0001"
-                />
-                </Paper>
-              </ListItem>
+              {context.data.map((item, index)=>(
+                <ListItem key={index}>
+                  <Paper elevation={3} className={classes.paper}>
+                  <FormControlLabel
+                    control={<Checkbox checked={item.status} onChange={()=>handleCheck(index)} name="gilad" />}
+                    label={item.name}
+                  />
+                  </Paper>
+                </ListItem>
+              ))}
             </List>
           </FormGroup>
         </FormControl>
