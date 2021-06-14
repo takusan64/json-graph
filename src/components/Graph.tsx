@@ -1,6 +1,12 @@
 import React, { useContext } from 'react'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
+  Container,
+  TextField,
+  Box,
+  Typography
+} from '@material-ui/core'
+import {
   LineChart,
   Line,
   XAxis,
@@ -11,64 +17,40 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import { DataContext } from '../utils/context'
+import styled from "styled-components"
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  }
-]
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       marginTop: theme.spacing(4)
     },
     chart: {
-      marginBottom: theme.spacing(5),
+      marginBottom: theme.spacing(8),
       width: '100%',
-      height: '300px',
+      height: '400px',
       display: 'block'
-    }
+    },
+    date_container: {
+      marginBottom: theme.spacing(1)
+    },
+    chart_container: {
+      marginBottom: theme.spacing(2)
+    },
+    datetime: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 300,
+      justify: 'right'
+    },
+    typography: {
+      fontSize: 18
+    },
   }
-  ))
+))
+
+const GrathItem = styled.div`
+display: ${props => !props.hidden ? "none" : "block"};
+`;
 
 const Graph: React.FC = () => {
   const classes = useStyles()
@@ -77,8 +59,37 @@ const Graph: React.FC = () => {
   return (
     <>
       <div className={classes.root}>
+        <Container maxWidth={false} className={classes.date_container}>
+          <Box display="flex" justifyContent="flex-end">
+            <TextField
+              id="from"
+              label="from"
+              type="datetime-local"
+              className={classes.datetime}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              defaultValue="2021-06-13T00:00"
+            />
+            <TextField
+              id="to"
+              label="to"
+              type="datetime-local"
+              className={classes.datetime}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              defaultValue="2021-06-14T00:00"
+            />
+          </Box>
+        </Container>
         {context.context.map((item, index) => (
-          <div key={index} className={classes.chart}>
+          <GrathItem key={index} className={classes.chart} hidden={item.status}>
+            <Container maxWidth={false} className={classes.chart_container}>
+              <Typography variant="body1" gutterBottom className={classes.typography}>
+                {item.name}
+              </Typography>
+            </Container>
             <ResponsiveContainer>
               <LineChart
                 width={500}
@@ -96,11 +107,11 @@ const Graph: React.FC = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="forecast" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="performance" stroke="#82ca9d" />
+                <Line type="monotone" name="予測" dataKey="forecast" stroke="#8884d8" />
+                <Line type="monotone"　name="実績" dataKey="performance" stroke="#82ca9d" activeDot={{ r: 8 }} />
               </LineChart>
             </ResponsiveContainer>
-          </div>
+          </GrathItem>
         ))}
       </div>
     </>
