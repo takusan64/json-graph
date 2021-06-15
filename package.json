@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "deploy": "react-scripts build && gh-pages -d build"
   },
-  "homepage": "https://takusan64.github.io/json-graph/",
+  "homepage": "/",
   "eslintConfig": {
     "extends": [
       "react-app",
