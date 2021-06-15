@@ -1,3 +1,7 @@
+// The MIT License (MIT)
+// Copyright (c) 2015 recharts
+// https://github.com/recharts/recharts/blob/master/LICENSE
+
 import ReactDOM from 'react-dom'
 import App from './App'
 import CssBaseline from '@material-ui/core/CssBaseline'
